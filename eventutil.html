@@ -31,6 +31,42 @@
 				}else{
 					event.cancelBubble=true;
 				}
+			},
+			getButton:function(event){
+				/**
+				 * 鼠标按钮：0没按下，1按下主鼠标按钮，2按下次鼠标按钮，3同时主次，4鼠标中间，5主和中，6次和中，7三个一起
+				 * **/
+				if(document.implementation.hasFeature('MouseEvents','2.0')){
+					return event.button;
+				}else{
+					switch (event.button){
+						case 0:
+						case 1:
+						case 3:
+						case 5:
+						case 7:return 0;
+						case 2:
+						case 6:return 2;
+						case 4:return 1;
+					}
+				}
+				
+			},
+			getWheelDelta:function(event){
+				/**鼠标滚动事件*/
+				if(event.wheelDelta){
+					return (client.engine.opera && client.engine.opera<9.5?-event.wheelDelta:event.wheelDelta);
+				}else{
+					return -event.detail*40;
+				}
+			},
+			getCharcode:function(){
+				/**键盘键码*/
+				if(typeof event.charCode=='number'){
+					return event.charCode;
+				}else{
+					return event.keyCode;
+				}
 			}
 		};
 		var btn=document.getElementById('clickme');
